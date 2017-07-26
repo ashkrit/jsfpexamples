@@ -16,7 +16,7 @@ var count = function (lines) {
 }
 
 var grep = function (filterText) {
-    
+
     var lowerTextValue = filterText.toLowerCase();
     return function (fileContent) {
 
@@ -36,18 +36,29 @@ var grep = function (filterText) {
 function compose(...functions) {
 
     return function (initialValue) {
-        
+
         return functions.reduce((lastValue, fn) => {
             return fn(lastValue);
         }, initialValue)
-        
+
     }
 }
 
 var fileLineCount = compose(cat, grep('home'), count)
 console.log(fileLineCount('logs'))
 
-cat(fileName)
-    .filter( line => line.indexOf('home') > -1)
-    .reduce(lineCount)
+var lineCount = (acc, value) => acc + 1;
 
+var grepText = function (text) {
+    return (line) => {
+        return line.toLowerCase().indexOf(text.toLowerCase()) > -1
+    };
+}
+
+
+cat('logs')
+    .filter(grepText('Home'))
+    .reduce(lineCount, 0)
+
+
+grepText('home')("home page is bad")    
