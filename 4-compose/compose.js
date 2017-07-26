@@ -55,7 +55,6 @@ var grepText = function (text) {
     };
 }
 
-
 cat('logs')
     .filter(grepText('Home'))
     .reduce(lineCount, 0)

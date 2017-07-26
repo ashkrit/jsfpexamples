@@ -7,7 +7,6 @@ function printOnScreen(str, height, width) {
     return elem;
 }
 
-
 let value = 10;
 let plus1 = value + 1;
 

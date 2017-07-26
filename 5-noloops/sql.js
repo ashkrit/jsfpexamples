@@ -43,13 +43,16 @@ var newReleases = [
 
 
 //Select ID , Title from  newRelease
-
-newReleases.map(movie => { return { "id": movie.id, "title": movie.title } });
+console.table(
+    newReleases.map(movie => { return { "id": movie.id, "title": movie.title } })
+);
 
 //Select title,rating from newRelease where rating>3
-newReleases
-    .filter(movie => movie.rating > 3)
-    .map(movie => { return { "rating": movie.rating, "title": movie.title } });
+console.table(
+    newReleases
+        .filter(movie => movie.rating > 3)
+        .map(movie => { return { "rating": movie.rating, "title": movie.title } })
+);
 
 //select rating , count(*) from newRelease group by rating
 
@@ -60,17 +63,24 @@ newReleases.map(movie => movie.rating)
         return agg;
     }, {})
 
+
 //select rating , count (*) from  newRelease group by rating having count(*) > 1
 
-newReleases.map(movie => movie.rating)
+var flat = (acc,value) => acc.concat(value);
+
+var groupBy = Array(newReleases.map(movie => movie.rating)
     .reduce((agg, value) => {
         agg[value] = (agg[value] || 0) + 1;
         return agg;
-    }, {})
-    .map(result => {
+    }, {}))
+
+
+    console.table(
+        groupBy.map(result => {
         return Object.keys(result)
             .filter(rating => result[rating] > 1)
             .map(rating => {
                 return { "rating": rating, "count": result[rating] }
-            });
-    })[0]
+            }
+            );
+    }).reduce(flat,[]))
